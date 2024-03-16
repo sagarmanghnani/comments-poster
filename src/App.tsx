@@ -5,7 +5,8 @@ import PostCreator from './components/PostCreator';
 import PostType from './enums';
 import IPostData from './post.interface';
 import { putPosts } from './post-viewer.utils';
-import CommentPost from './components/NewPost';
+import CommentPost from './components/CommentPost';
+import PostViewer from './components/PostViewer';
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
   return (
     <div className="App">
       <CommentPost ></CommentPost>
+      <PostViewer></PostViewer>
     </div>
   );
 }

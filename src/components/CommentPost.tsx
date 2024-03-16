@@ -46,7 +46,7 @@ const CommentPost = ({isExisting, parentId, id}:ICommentPostProps) => {
             type: PostType.COMMENT,
             createdAt: postId,
             childPostIds: alreadyExistingPostRef?.current?.childPostIds ?? [],
-            parentId: parentId ?? null
+            parentId: parentId
         }
 
         putPosts(postDetail);
@@ -54,7 +54,7 @@ const CommentPost = ({isExisting, parentId, id}:ICommentPostProps) => {
 
     return (
         <>
-            <PostCreator formDataHandler={formDataHandler} name={formData?.name} comment={formData?.comment} type={PostType.COMMENT} postBtnClick={onPostBtnClick} ></PostCreator>
+            <PostCreator formDataHandler={formDataHandler} name={formData?.name ?? ''} comment={formData?.comment ?? ''} type={PostType.COMMENT} postBtnClick={onPostBtnClick} ></PostCreator>
         </>
     )
 }

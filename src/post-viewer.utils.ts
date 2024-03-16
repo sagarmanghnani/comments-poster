@@ -42,11 +42,30 @@ const putPosts = (postData:IPostData): void => {
 }
 
 
+const deletePost = (postId:string): void => {
+    if(!postId) return;
+    const postData = getPostById(postId);
+    if(!postData) return;
+    const {parentId, id} = postData;
+    const allPostData = getAllPosts() ?? {};
+    if(parentId) {
+        const parentItem = allPostData[parentId];
+        const newChildPostIds = parentItem.childPostIds.filter((id) => {
+            return id !== postId;
+        })
+        parentItem.childPostIds = newChildPostIds;
+    }
+    delete allPostData[postId];
+    localStorage.setItem(POST_DATA, JSON.stringify(allPostData));
+}
+
+
 
 
 export default getPostById;
 
 export {
     putPosts,
-    getAllPosts
+    getAllPosts,
+    deletePost
 }

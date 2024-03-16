@@ -13,7 +13,6 @@ interface IDisableConfig {
 
 interface IPostCreatorProps {
     type:PostType
-    // postHandler: (postData: IPostData) => void;
     formDataHandler: (updatedValue:string, type: keyof IFormData) => void;
     name:string;
     comment:string;
@@ -39,20 +38,13 @@ const PostCreator = ({type, formDataHandler, name, comment, disableConfig, postB
         if(formDataHandler) {
             formDataHandler(updatedValue, type);
         }
-
-        // setFormData((prevData: any) => {
-        //         return {
-        //             ...prevData,
-        //             [type]: updatedValue
-        //         }
-        // })
     }
 
     return (
         <>
             <Card className="post-creator-container">
                 <Card.Body>
-                    <h4> {type === PostType.COMMENT ? 'Comment' : 'Reply'} </h4>
+                    <h5> {type === PostType.COMMENT ? 'Comment' : 'Reply'} </h5>
                     <div className="form-container">
                         <input placeholder="Name" value={name} onChange={(ev) => {
                             handleFormDataUpdate(ev.target.value, 'name')
