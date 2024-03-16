@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
-import logo from "./logo.svg";
 import "./App.css";
-import PostCreator from "./components/PostCreator";
-import PostType from "./enums";
 import "bootstrap/dist/css/bootstrap.min.css";
-import IPostData from "./post.interface";
 import { getAllPosts, putPosts } from "./post-viewer.utils";
 import CommentPost from "./components/CommentPost";
 import PostViewer from "./components/PostViewer";

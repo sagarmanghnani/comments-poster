@@ -74,16 +74,18 @@ const PostViewer = ({ postId, onPost }: IPostViewerProps) => {
               <span className="comment"> {postData?.comment} </span>
             </Card.Body>
 
-            <div className="footer-actions">
-              <Button variant="link" onClick={handleReplyBtnClick}>
-                {" "}
-                Reply{" "}
-              </Button>
-              <Button variant="link" onClick={handleEditBtnClick}>
-                {" "}
-                Edit{" "}
-              </Button>
-            </div>
+            {!postData?.parentId && (
+              <div className="footer-actions">
+                <Button variant="link" onClick={handleReplyBtnClick}>
+                  {" "}
+                  Reply{" "}
+                </Button>
+                <Button variant="link" onClick={handleEditBtnClick}>
+                  {" "}
+                  Edit{" "}
+                </Button>
+              </div>
+            )}
             <button className="delete-btn">
               <Trash3Fill />
             </button>

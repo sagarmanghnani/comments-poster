@@ -52,6 +52,7 @@ const CommentPost = ({
     if (onPost) {
       onPost();
     }
+    setFormData(undefined);
   };
 
   return (
