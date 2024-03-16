@@ -24,7 +24,7 @@ const CommentPost = ({
         alreadyExistingPostRef.current = existingPost;
       }
     }
-  }, []);
+  }, [isExisting, id]);
 
   const formDataHandler = (updatedValue: string, type: keyof IFormData) => {
     setFormData((prevData: any) => {

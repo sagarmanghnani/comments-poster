@@ -1,8 +1,7 @@
-import PostType, { PostMode } from "../enums";
-import IPostData, { IFormData } from "../post.interface";
+import PostType from "../enums";
+import { IFormData } from "../post.interface";
 import "./post-creator.scss";
 import Card from "react-bootstrap/Card";
-import { useState } from "react";
 import Button from "react-bootstrap/Button";
 
 interface IDisableConfig {

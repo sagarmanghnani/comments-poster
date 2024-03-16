@@ -5,7 +5,7 @@ import IPostData from "../post.interface";
 import "./post-viewer.scss";
 import { Trash3Fill } from "react-bootstrap-icons";
 import { useState } from "react";
-import PostType, { PostMode } from "../enums";
+import PostType from "../enums";
 import ReplyPost from "./ReplyPost";
 import CommentPost from "./CommentPost";
 

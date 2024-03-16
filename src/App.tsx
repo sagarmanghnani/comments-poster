@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { deletePost, getAllPosts, putPosts } from "./post-viewer.utils";
+import { deletePost, getAllPosts } from "./post-viewer.utils";
 import CommentPost from "./components/CommentPost";
 import PostViewer from "./components/PostViewer";
 
