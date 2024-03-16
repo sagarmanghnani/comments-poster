@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { getAllPosts, putPosts } from "./post-viewer.utils";
+import { deletePost, getAllPosts, putPosts } from "./post-viewer.utils";
 import CommentPost from "./components/CommentPost";
 import PostViewer from "./components/PostViewer";
 
@@ -25,7 +25,8 @@ function App() {
     updatePosts();
   };
 
-  const handleOnPostDelete = () => {
+  const handleOnPostDelete = (postId: string) => {
+    deletePost(postId);
     updatePosts();
   };
 
@@ -37,7 +38,13 @@ function App() {
     <div className="App">
       <CommentPost onPost={handleOnPost}></CommentPost>
       {commentPostIds.map((postId) => {
-        return <PostViewer postId={postId} onPost={handleOnPost}></PostViewer>;
+        return (
+          <PostViewer
+            postId={postId}
+            onPost={handleOnPost}
+            onPostDeleteBtnClick={handleOnPostDelete}
+          ></PostViewer>
+        );
       })}
     </div>
   );

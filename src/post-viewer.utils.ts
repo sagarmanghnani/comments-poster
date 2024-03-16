@@ -44,14 +44,12 @@ const deletePost = (postId: string): void => {
   if (!postId) return;
   const postData = getPostById(postId);
   if (!postData) return;
-  const { parentId, id } = postData;
+  const { childPostIds } = postData;
   const allPostData = getAllPosts() ?? {};
-  if (parentId) {
-    const parentItem = allPostData[parentId];
-    const newChildPostIds = parentItem.childPostIds.filter((id) => {
-      return id !== postId;
+  if (childPostIds?.length) {
+    childPostIds.forEach((id) => {
+      delete allPostData[id];
     });
-    parentItem.childPostIds = newChildPostIds;
   }
   delete allPostData[postId];
   localStorage.setItem(POST_DATA, JSON.stringify(allPostData));

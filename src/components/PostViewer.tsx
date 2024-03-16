@@ -11,11 +11,15 @@ import CommentPost from "./CommentPost";
 
 interface IPostViewerProps {
   postId: string;
-  onPostDeleteBtnClick?: (postId: string) => void;
+  onPostDeleteBtnClick: (postId: string) => void;
   onPost?: () => void;
 }
 
-const PostViewer = ({ postId, onPost }: IPostViewerProps) => {
+const PostViewer = ({
+  postId,
+  onPost,
+  onPostDeleteBtnClick,
+}: IPostViewerProps) => {
   const postData: IPostData | null = getPostById(postId);
   const [showEditCommentOrReply, setShowEditCommentOrReply] = useState(
     PostType.NONE
@@ -32,6 +36,12 @@ const PostViewer = ({ postId, onPost }: IPostViewerProps) => {
     setShowEditCommentOrReply(PostType.NONE);
     if (onPost) {
       onPost();
+    }
+  };
+
+  const handleOnPostDeleteClick = (postId: string) => {
+    if (onPostDeleteBtnClick) {
+      onPostDeleteBtnClick(postId);
     }
   };
 
@@ -56,7 +66,12 @@ const PostViewer = ({ postId, onPost }: IPostViewerProps) => {
   const generateChildPosts = () => {
     const childPostIds = postData.childPostIds;
     const ChildPosts = childPostIds.map((postId) => {
-      return <PostViewer postId={postId}></PostViewer>;
+      return (
+        <PostViewer
+          postId={postId}
+          onPostDeleteBtnClick={handleOnPostDeleteClick}
+        ></PostViewer>
+      );
     });
     return ChildPosts;
   };
@@ -86,7 +101,10 @@ const PostViewer = ({ postId, onPost }: IPostViewerProps) => {
                 </Button>
               </div>
             )}
-            <button className="delete-btn">
+            <button
+              className="delete-btn"
+              onClick={() => handleOnPostDeleteClick(postData?.id)}
+            >
               <Trash3Fill />
             </button>
           </Card>
