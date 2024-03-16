@@ -37,13 +37,25 @@
   }
 }
 
-.reply-or-comment {
+.related-posts {
   margin-left: 8px;
-  margin-right: 8px;
+  // margin-right: 8px;
   margin-top: 16px;
   display: flex;
   justify-content: flex-end;
+  flex-flow: column;
+  align-items: flex-end;
+  .post-viewer-container {
+    width: calc(100% - 30px);
+  }
+
   .post-creator-container {
-    width: 80%;
+    width: calc(100% - 30px);
   }
 }
+
+// .reply-or-comment {
+//   .post-creator-container {
+//     width: 80%;
+//   }
+// }

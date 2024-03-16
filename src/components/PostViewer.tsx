@@ -14,7 +14,7 @@ interface IPostViewerProps {
   onPostDeleteBtnClick?: (postId: string) => void;
 }
 
-const PostViewer = ({ postId, onPostDeleteBtnClick }: IPostViewerProps) => {
+const PostViewer = ({ postId }: IPostViewerProps) => {
   const postData: IPostData | null = getPostById(postId);
   const [showEditCommentOrReply, setShowEditCommentOrReply] = useState(
     PostType.NONE
@@ -40,6 +40,14 @@ const PostViewer = ({ postId, onPostDeleteBtnClick }: IPostViewerProps) => {
       );
     }
     return null;
+  };
+
+  const generateChildPosts = () => {
+    const childPostIds = postData.childPostIds;
+    const ChildPosts = childPostIds.map((postId) => {
+      return <PostViewer postId={postId}></PostViewer>;
+    });
+    return ChildPosts;
   };
 
   return (
@@ -70,7 +78,10 @@ const PostViewer = ({ postId, onPostDeleteBtnClick }: IPostViewerProps) => {
             </button>
           </Card>
 
-          <div className="reply-or-comment">{renderReplyOrCommentEdit()}</div>
+          <div className="related-posts">
+            {renderReplyOrCommentEdit()}
+            {generateChildPosts()}
+          </div>
         </>
       )}
     </>
