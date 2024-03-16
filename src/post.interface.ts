@@ -20,6 +20,7 @@ export interface ICommentPostProps {
   parentId?: string;
   id?: string;
   type?: PostType;
+  onPost: () => void;
 }
 
 export default IPostData;

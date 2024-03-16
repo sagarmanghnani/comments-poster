@@ -12,9 +12,10 @@ import CommentPost from "./CommentPost";
 interface IPostViewerProps {
   postId: string;
   onPostDeleteBtnClick?: (postId: string) => void;
+  onPost?: () => void;
 }
 
-const PostViewer = ({ postId }: IPostViewerProps) => {
+const PostViewer = ({ postId, onPost }: IPostViewerProps) => {
   const postData: IPostData | null = getPostById(postId);
   const [showEditCommentOrReply, setShowEditCommentOrReply] = useState(
     PostType.NONE
@@ -27,15 +28,25 @@ const PostViewer = ({ postId }: IPostViewerProps) => {
     setShowEditCommentOrReply(PostType.COMMENT);
   };
 
+  const augmentedOnPost = () => {
+    setShowEditCommentOrReply(PostType.NONE);
+    if (onPost) {
+      onPost();
+    }
+  };
+
   const renderReplyOrCommentEdit = () => {
     if (showEditCommentOrReply === PostType.REPLY) {
-      return <ReplyPost parentId={postData?.id}></ReplyPost>;
+      return (
+        <ReplyPost parentId={postData?.id} onPost={augmentedOnPost}></ReplyPost>
+      );
     } else if (showEditCommentOrReply === PostType.COMMENT) {
       return (
         <CommentPost
           isExisting={true}
           parentId={postData.parentId}
           id={postData.id}
+          onPost={augmentedOnPost}
         ></CommentPost>
       );
     }

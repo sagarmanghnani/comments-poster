@@ -4,7 +4,13 @@ import getPostById, { putPosts } from "../post-viewer.utils";
 import IPostData, { ICommentPostProps, IFormData } from "../post.interface";
 import PostCreator from "./PostCreator";
 
-const CommentPost = ({ isExisting, parentId, id, type }: ICommentPostProps) => {
+const CommentPost = ({
+  isExisting,
+  parentId,
+  id,
+  type,
+  onPost,
+}: ICommentPostProps) => {
   const [formData, setFormData] = useState<IFormData | undefined>();
   const alreadyExistingPostRef = useRef<IPostData | null>();
   useEffect(() => {
@@ -43,6 +49,9 @@ const CommentPost = ({ isExisting, parentId, id, type }: ICommentPostProps) => {
     };
 
     putPosts(postDetail);
+    if (onPost) {
+      onPost();
+    }
   };
 
   return (
