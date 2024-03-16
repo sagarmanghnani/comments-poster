@@ -5,7 +5,7 @@ enum PostType {
 
 enum PostMode {
     CREATE = 1,
-    MODE = 2
+    EDIT = 2
 }
 
 export default PostType;
