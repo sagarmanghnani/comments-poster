@@ -1,11 +1,8 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
-  decreasingOrder,
   deletePost,
-  getAllPosts,
-  increasingOrder,
   setAllTopLevelPosts,
 } from "./post-viewer.utils";
 import CommentPost from "./components/CommentPost";
@@ -18,9 +15,11 @@ function App() {
   const [commentPostIds, setCommentPostIds] = useState<string[]>([]);
   const [sortedOrder, setSortedOrder] = useState(PostOrder.INCREASING);
 
-  const updatePosts = () => {
+  const updatePosts = useCallback(() => {
     setAllTopLevelPosts(sortedOrder, setCommentPostIds);
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setCommentPostIds]) 
+  
 
   const handleOnPost = () => {
     updatePosts();
@@ -33,7 +32,8 @@ function App() {
 
   useEffect(() => {
     updatePosts();
-  }, [sortedOrder]);
+    //react-hooks/exhaustive-deps
+  }, [sortedOrder, updatePosts]);
 
   return (
     <SortedOrderContext.Provider value={sortedOrder}>
