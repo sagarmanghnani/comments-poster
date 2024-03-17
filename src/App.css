@@ -5,3 +5,10 @@ html {
 .App {
   padding: 20px;
 }
+
+.sort-order {
+  display: block;
+  text-align: right;
+  margin-top: 16px;
+  border-bottom: 8px;
+}

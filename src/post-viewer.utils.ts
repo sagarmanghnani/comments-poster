@@ -1,4 +1,5 @@
 import POST_DATA from "./constants";
+import { PostOrder } from "./enums";
 import IPostData from "./post.interface";
 
 const getAllPosts = (): Record<string, IPostData> | null => {
@@ -63,6 +64,29 @@ export const formatDate = (dateInMilliSeconds: string): string => {
   const formattedDate = `${date}-${month}-${year}`;
   return formattedDate;
 };
+
+export const setAllTopLevelPosts = (
+  sortedOrder: PostOrder,
+  setCommentPostIds: React.Dispatch<React.SetStateAction<string[]>>
+) => {
+  const userPosts = getAllPosts();
+  if (userPosts) {
+    const commentPosts = [];
+    Object.values(userPosts).forEach((post) => {
+      if (!post.parentId) {
+        commentPosts.push(post.id);
+      }
+    });
+    const sortFunc =
+      sortedOrder === PostOrder.INCREASING ? increasingOrder : decreasingOrder;
+    commentPosts.sort(sortFunc);
+    setCommentPostIds(commentPosts);
+  }
+};
+
+export const increasingOrder = (a, b) => +a - +b;
+
+export const decreasingOrder = (a, b) => +b - +a;
 
 export default getPostById;
 

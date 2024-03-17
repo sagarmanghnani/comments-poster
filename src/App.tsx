@@ -1,24 +1,25 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { deletePost, getAllPosts } from "./post-viewer.utils";
+import {
+  decreasingOrder,
+  deletePost,
+  getAllPosts,
+  increasingOrder,
+  setAllTopLevelPosts,
+} from "./post-viewer.utils";
 import CommentPost from "./components/CommentPost";
 import PostViewer from "./components/PostViewer";
-
+import { PostOrder } from "./enums";
+import SortedOrderContext from "./sortedOrderContext";
+import { ArrowDown, ArrowUp } from "react-bootstrap-icons";
+import { Button } from "react-bootstrap";
 function App() {
   const [commentPostIds, setCommentPostIds] = useState<string[]>([]);
+  const [sortedOrder, setSortedOrder] = useState(PostOrder.INCREASING);
 
   const updatePosts = () => {
-    const userPosts = getAllPosts();
-    if (userPosts) {
-      const commentPosts = [];
-      Object.values(userPosts).forEach((post) => {
-        if (!post.parentId) {
-          commentPosts.push(post.id);
-        }
-      });
-      setCommentPostIds(commentPosts);
-    }
+    setAllTopLevelPosts(sortedOrder, setCommentPostIds);
   };
 
   const handleOnPost = () => {
@@ -32,21 +33,45 @@ function App() {
 
   useEffect(() => {
     updatePosts();
-  }, []);
+  }, [sortedOrder]);
 
   return (
-    <div className="App">
-      <CommentPost onPost={handleOnPost}></CommentPost>
-      {commentPostIds.map((postId) => {
-        return (
-          <PostViewer
-            postId={postId}
-            onPost={handleOnPost}
-            onPostDeleteBtnClick={handleOnPostDelete}
-          ></PostViewer>
-        );
-      })}
-    </div>
+    <SortedOrderContext.Provider value={sortedOrder}>
+      <div className="App">
+        <CommentPost onPost={handleOnPost}></CommentPost>
+        <span className="sort-order">
+          {" "}
+          Sort By:{" "}
+          <Button
+            variant="link"
+            onClick={() => {
+              setSortedOrder((order) =>
+                order === PostOrder.INCREASING
+                  ? PostOrder.DECREASING
+                  : PostOrder.INCREASING
+              );
+            }}
+          >
+            {" "}
+            Date and time{" "}
+            {sortedOrder === PostOrder.INCREASING ? (
+              <ArrowDown></ArrowDown>
+            ) : (
+              <ArrowUp></ArrowUp>
+            )}{" "}
+          </Button>{" "}
+        </span>
+        {commentPostIds.map((postId) => {
+          return (
+            <PostViewer
+              postId={postId}
+              onPost={handleOnPost}
+              onPostDeleteBtnClick={handleOnPostDelete}
+            ></PostViewer>
+          );
+        })}
+      </div>
+    </SortedOrderContext.Provider>
   );
 }
 

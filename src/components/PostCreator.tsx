@@ -3,6 +3,7 @@ import { IFormData } from "../post.interface";
 import "./post-creator.scss";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+import { useEffect, useRef } from "react";
 
 interface IDisableConfig {
   name?: boolean;
@@ -32,6 +33,14 @@ const PostCreator = ({
     }
   };
 
+  const nameInputRef = useRef<HTMLInputElement>();
+
+  useEffect(() => {
+    if (nameInputRef.current) {
+      nameInputRef.current.focus();
+    }
+  }, []);
+
   const handleFormDataUpdate = (
     updatedValue: string,
     type: keyof IFormData
@@ -55,6 +64,10 @@ const PostCreator = ({
               }}
               required
               disabled={disableConfig?.name}
+              ref={nameInputRef}
+              style={{
+                cursor: disableConfig?.name ? "not-allowed" : "",
+              }}
             />
 
             <textarea

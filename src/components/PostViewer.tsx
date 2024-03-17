@@ -1,13 +1,18 @@
 import Button from "react-bootstrap/esm/Button";
 import Card from "react-bootstrap/esm/Card";
-import getPostById, { formatDate } from "../post-viewer.utils";
+import getPostById, {
+  decreasingOrder,
+  formatDate,
+  increasingOrder,
+} from "../post-viewer.utils";
 import IPostData from "../post.interface";
 import "./post-viewer.scss";
 import { Trash3Fill } from "react-bootstrap-icons";
-import { useState } from "react";
-import PostType from "../enums";
+import { useContext, useState } from "react";
+import PostType, { PostOrder } from "../enums";
 import ReplyPost from "./ReplyPost";
 import CommentPost from "./CommentPost";
+import SortedOrderContext from "../sortedOrderContext";
 
 interface IPostViewerProps {
   postId: string;
@@ -27,6 +32,8 @@ const PostViewer = ({
   const handleReplyBtnClick = () => {
     setShowEditCommentOrReply(PostType.REPLY);
   };
+
+  const sortedOrder = useContext(SortedOrderContext);
 
   const handleEditBtnClick = () => {
     setShowEditCommentOrReply(PostType.COMMENT);
@@ -65,6 +72,9 @@ const PostViewer = ({
 
   const generateChildPosts = () => {
     const childPostIds = postData.childPostIds;
+    const sortFunc =
+      sortedOrder === PostOrder.INCREASING ? increasingOrder : decreasingOrder;
+    childPostIds.sort(sortFunc);
     const ChildPosts = childPostIds.map((postId) => {
       return (
         <PostViewer
