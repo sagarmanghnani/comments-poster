@@ -84,6 +84,10 @@ const PostCreator = ({
               variant="primary"
               className="post-btn"
               onClick={handlePostBtnClick}
+              disabled={!name || !comment}
+              style={{
+                cursor: !name || !comment ? "not-allowed" : "",
+              }}
             >
               Post
             </Button>
